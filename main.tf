@@ -52,7 +52,7 @@ module "autoscaling" {
   max_size = 2
 
   vpc_zone_identifier = module.blog_vpc.public_subnets
-  #target_group_arns = module.blog_alb.target_group_arns
+  target_group_arns = aws_instance.blog.id
   security_groups = [module.blog_sg.security_group_id]
 
   image_id = data.aws_ami.app_ami.id
@@ -69,7 +69,7 @@ module "blog_alb" {
 
   vpc_id          = module.blog_vpc.vpc_id
   subnets         = module.blog_vpc.public_subnets
-  security_groups = module.blog_sg.security_group_id
+  vpc_security_group_ids = module.blog_sg.security_group_id
 
   target_groups = {
     ex-instance = {
